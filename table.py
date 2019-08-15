@@ -8,13 +8,10 @@ class Table:
 
         self.row_cutoff = 10
 
-    def __str__(self):
-        return "(x: %d, y: %d, w: %d, h: %d)" % (self.x, self.x + self.w, self.y, self.y + self.h)
-
     # Stores the coordinates of the table joints.
     # Assumes the n-dimensional array joints is sorted in ascending order.
     def set_joints(self, joints):
-        if self.joints != None:
+        if self.joints is not None:
             raise ValueError("Invalid setting of table joints array.")
 
         self.joints = []
@@ -28,28 +25,17 @@ class Table:
 
             row.append(joints[i])
 
-            # If the next joint has a new y-coordinate,
-            # start a new row.
+            # If the next joint has a new y-coordinate, start a new row.
+            # the image may not be pixel perfect, therefore we compare the diff in pixel height with a cutoff value
             if joints[i + 1][1] - row_y > self.row_cutoff:
                 self.joints.append(row)
                 row_y = joints[i + 1][1]
                 row = []
 
-    # Prints the coordinates of the joints.
-    def print_joints(self):
-        if self.joints == None:
-            print("Joint coordinates not found.")
-            return
-
-        print("[")
-        for row in self.joints:
-            print("\t" + str(row))
-        print("]")
-
     # Finds the bounds of table entries in the image by
     # using the coordinates of the table joints.
     def get_table_entries(self):
-        if self.joints == None:
+        if self.joints is None:
             print("Joint coordinates not found.")
             return
 
