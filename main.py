@@ -13,9 +13,9 @@ from table import Table
 
 
 ext_img = Image.open('data/example.jpg')
-ext_img.save("data/target.jpg", "JPEG")
+ext_img.save("out/target.jpg", "JPEG")
 
-image = cv.imread("data/target.jpg")
+image = cv.imread("out/target.jpg")
 
 # convert to grayscale
 grayscale = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
