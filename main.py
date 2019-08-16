@@ -1,9 +1,10 @@
 # %%
 
-from PIL import Image
-import cv2 as cv
+import pytesseract
 
+from PIL import Image
 import numpy as np
+import cv2 as cv
 
 import utils
 from table import Table
@@ -26,8 +27,8 @@ grayscale = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
 # is less than a threshold value, which could be:
 #
 # 1. a specified global threshold value provided as an argument to the threshold function (simple thresholding),
-# 2. the mean value of the pixels in the neighboring area (adaptive thresholding - mean method),
-# 3. the weighted sum of neigborhood values where the weights are Gaussian windows (adaptive thresholding - Gaussian method).
+# 2. the mean value of the pixels in the neighboring area (adaptive thresholding - mean method), 3. the weighted sum
+# of neighborhood values where the weights are Gaussian windows (adaptive thresholding - Gaussian method).
 #
 # The last two parameters to the adaptiveThreshold function are the size of the neighboring area and
 # the constant C which is subtracted from the mean or weighted mean calculated.
@@ -120,28 +121,28 @@ for i, contour in enumerate(contours):
 
 # %%
 
-psm = 6
-oem = 3
-mult = 3
+# ZOOM FACTOR
+MULT = 3
 
 # Process each table's ROI
 for i, table in enumerate(tables):
     # crop the table
     table_roi = image[table.y:table.y + table.h, table.x:table.x + table.w]
     # resize/rescale
-    table_roi = cv.resize(table_roi, (table.w * mult, table.h * mult))
+    table_roi = cv.resize(table_roi, (table.w * MULT, table.h * MULT))
 
     cv.imwrite(f'out/table-roi-{i}.jpg', table_roi)
 
     table_entries = table.get_table_entries()
-    print(len(table_entries))
     for r, row in enumerate(table_entries):
-        print(len(row))
         for c, cell in enumerate(row):
-            # cell_cropped = cell
-            cell_cropped = table_roi[cell[1] * mult: (cell[1] + cell[3]) * mult,
-                           cell[0] * mult:(cell[0] + cell[2]) * mult]
+            cell_cropped = table_roi[cell[1] * MULT: (cell[1] + cell[3]) * MULT,
+                           cell[0] * MULT:(cell[0] + cell[2]) * MULT]
 
-            # cv.rectangle(table_roi, (cell[0], cell[1]), (cell[2], cell[3]), (255, 0, 0), 4, 8, 0)
-            f = cv.imwrite(f'out/table-cell-{i}-{r}-{c}.jpg', cell_cropped)
-    # print(table_entries)
+            cell_name = f'table-cell-{i}-{r}-{c}'
+
+            # applying ocr, results not so great
+            # text = pytesseract.image_to_string(cell_cropped, config='--psm 10', lang='eng')
+            # print(cell_name, text.encode())
+
+            cv.imwrite(f'out/{cell_name}.jpg', cell_cropped)
