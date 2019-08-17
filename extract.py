@@ -141,11 +141,12 @@ def extract(image):
 
         table_entries = table.get_table_entries()
         for r, row in enumerate(table_entries):
+            out_tables[-1].append([])
             for c, cell in enumerate(row):
                 cell_cropped = table_roi[cell[1] * mult: (cell[1] + cell[3]) * mult,
                                cell[0] * mult:(cell[0] + cell[2]) * mult]
 
-                out_tables[-1].append({'row': r, 'column': c, 'cell': cell_cropped})
+                out_tables[-1][-1].append({'row': r, 'column': c, 'cell': cell_cropped})
 
     return out_tables
 

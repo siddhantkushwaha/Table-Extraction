@@ -48,10 +48,3 @@ if __name__ == '__main__':
     enhanced = enhance(cell)
 
     cv.imwrite('out/cell_enhanced.jpg', enhanced)
-
-    import pytesseract
-
-    text1 = pytesseract.image_to_string(cell)
-    text2 = pytesseract.image_to_string(enhanced)
-
-    print(text1, text2, sep=', ')

@@ -14,7 +14,7 @@ def ocr(cell):
     intensity = np.sum(enhanced) / (enhanced.shape[0] * enhanced.shape[1])
 
     text = None
-    if 3 < intensity < 252:
+    if 2 < intensity < 253:
         text = ts.image_to_string(enhanced, config='--psm 10')
 
     return enhanced, text
