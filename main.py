@@ -20,4 +20,4 @@ if __name__ == '__main__':
                 _, text = ocr(cell['cell'])
                 data[-1].append(text)
         df = pd.DataFrame(data)
-        df.to_excel(f'out/table-{i}.csv', index=False)
+        df.to_excel(f'out/table-{i}.xlsx', index=False)
