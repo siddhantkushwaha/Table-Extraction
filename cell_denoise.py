@@ -11,6 +11,8 @@ import numpy as np
 # The OCR gives correct result for cell3-enhanced (increased contrast and removed borders)
 # We'll try to make cell3.jpg like cell3-enhanced.jpeg
 def enhance(image, iterations=0):
+    image = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
+
     # Remove borders
     inv = 255 - image
     horizontal_img = inv
@@ -30,16 +32,26 @@ def enhance(image, iterations=0):
     for i in range(iterations):
         no_border = np.bitwise_or(no_border, mask_img)
 
-    # increase contrast, decrease brightness
+    # increase contrast
     alpha = 3.0
-    beta = -50
-    image = cv.convertScaleAbs(no_border, alpha=alpha, beta=beta)
+    beta = -57
+    cb = cv.convertScaleAbs(no_border, alpha=alpha, beta=beta)
 
-    return image
+    # apply gaussian adaptive thresholding to thicken the text
+    adt = cv.adaptiveThreshold(cb, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 999, 2)
+
+    return adt
 
 
 if __name__ == '__main__':
-    cell = cv.imread('data/table-cells/cell1.jpg')
+    cell = cv.imread('data/table-cells/cell5.jpg')
     enhanced = enhance(cell)
 
     cv.imwrite('out/cell_enhanced.jpg', enhanced)
+
+    import pytesseract
+
+    text1 = pytesseract.image_to_string(cell)
+    text2 = pytesseract.image_to_string(enhanced)
+
+    print(text1, text2, sep=', ')
