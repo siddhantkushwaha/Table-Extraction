@@ -7,21 +7,20 @@ def isolate_lines(src, structuring_element):
     cv.dilate(src, structuring_element, src, (-1, -1))
 
 
-MIN_TABLE_AREA = 50  # min table area to be considered a table
-EPSILON = 3  # epsilon value for contour approximation
-
-
 # Verify if the region inside a contour is a table
 # If it is a table, returns the bounding rect
 # and the table joints. Else return None.
 def verify_table(contour, intersections):
+    min_table_area = 50  # min table area to be considered a table
+    epsilon = 3  # epsilon value for contour approximation
+
     area = cv.contourArea(contour)
 
-    if area < MIN_TABLE_AREA:
+    if area < min_table_area:
         return None, None
 
     # approxPolyDP approximates a polygonal curve within the specified precision
-    curve = cv.approxPolyDP(contour, EPSILON, True)
+    curve = cv.approxPolyDP(contour, epsilon, True)
 
     # boundingRect calculates the bounding rectangle of a point set (eg. a curve)
     rect = cv.boundingRect(curve)  # format of each rect: x, y, w, h

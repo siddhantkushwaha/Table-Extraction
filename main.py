@@ -1,7 +1,5 @@
 # %%
 
-import pytesseract
-
 from PIL import Image
 import numpy as np
 import cv2 as cv
@@ -10,7 +8,6 @@ import utils
 from table import Table
 
 # %%
-
 
 ext_img = Image.open('data/example.jpg')
 ext_img.save("out/target.jpg", "JPEG")
@@ -140,9 +137,4 @@ for i, table in enumerate(tables):
                            cell[0] * MULT:(cell[0] + cell[2]) * MULT]
 
             cell_name = f'table-cell-{i}-{r}-{c}'
-
-            # applying ocr, results not so great
-            # text = pytesseract.image_to_string(cell_cropped, config='--psm 10', lang='eng')
-            # print(cell_name, text.encode())
-
             cv.imwrite(f'out/{cell_name}.jpg', cell_cropped)
