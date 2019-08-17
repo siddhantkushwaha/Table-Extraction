@@ -39,7 +39,7 @@ def enhance(image, iterations=0):
 
 
 if __name__ == '__main__':
-    cell = cv.imread('data/table-cells/cell3.jpg')
+    cell = cv.imread('data/table-cells/cell1.jpg')
     enhanced = enhance(cell)
 
     cv.imwrite('out/cell_enhanced.jpg', enhanced)
