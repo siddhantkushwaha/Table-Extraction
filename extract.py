@@ -29,7 +29,7 @@ def extract(image):
         table_image = add_border_padding(table_image, w=(2, 2, 2, 4), color=(100, 100, 100))
 
         # find table joints, intersections for the warped table
-        _, h, v = get_grid_mask(table_image)
+        m, h, v = get_grid_mask(table_image)
         table_intersections = cv.bitwise_and(h, v)
 
         intersection_points = find_intersection_mean_cords(table_intersections)
@@ -38,7 +38,13 @@ def extract(image):
             continue
 
         table = Table(table_image, intersection_points)
-        table_cells.append(table.get_cells())
+
+        try:
+            table_cells.append(table.get_cells())
+        except Exception as e:
+            print(e)
+            for row in intersection_points:
+                print(row)
 
     return table_cells
 

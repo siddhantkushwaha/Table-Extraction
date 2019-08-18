@@ -13,11 +13,11 @@ class Table:
         # print(m)
 
         table_cells = []
-        for i in range(m):
+        for i in range(m-1):
             table_cells.append([])
             n = len(self.intersection_points[i])
             # print(n)
-            for j in range(n):
+            for j in range(n-1):
                 tl = self.intersection_points[i][j]
                 tr = self.intersection_points[i][j + 1]
                 bl = self.intersection_points[i + 1][j]
