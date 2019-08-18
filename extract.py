@@ -110,6 +110,11 @@ def extract(image):
         # create an object for table
         table = Table(rect[0], rect[1], rect[2], rect[3])
 
+        # highlight the table and write it
+        # copy = image.copy()
+        # cv.rectangle(copy, (table.x, table.y), (table.x + table.w, table.y + table.h), (255, 0, 0), 4, 8, 0)
+        # cv.imwrite(f'out/table-h-{i}.jpg', copy)
+
         # Get an n-dimensional array of the coordinates of the table joints
         joint_coords = []
         for i in range(len(table_joints)):
@@ -138,6 +143,7 @@ def extract(image):
         table_roi = image[table.y:table.y + table.h, table.x:table.x + table.w]
         # resize/rescale
         table_roi = cv.resize(table_roi, (table.w * mult, table.h * mult))
+        cv.imwrite(f'out/table-{i}.jpg', table_roi)
 
         table_entries = table.get_table_entries()
         for r, row in enumerate(table_entries):
@@ -148,13 +154,15 @@ def extract(image):
 
                 out_tables[-1][-1].append({'row': r, 'column': c, 'cell': cell_cropped})
 
+                # print(i, r, c)
+                # cv.imwrite(f'out/table-{i}-row-{r}-cell{c}.jpg', cell_cropped)
+
     return out_tables
 
 
 if __name__ == '__main__':
-    ext_img = Image.open('data/example.jpg')
+    ext_img = Image.open('data/example1.jpg')
     ext_img.save("out/target.jpg", "JPEG")
     target_img = cv.imread("out/target.jpg")
 
     tables = extract(target_img)
-    print(tables)
