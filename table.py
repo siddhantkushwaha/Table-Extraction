@@ -1,9 +1,9 @@
 class Table:
-    def __init__(self, x, y, w, h):
-        self.x = x
-        self.y = y
-        self.w = w
-        self.h = h
+    def __init__(self, image):
+        self.image = image
+        self.h = image.shape[0]
+        self.w = image.shape[1]
+
         self.joints = None
 
         self.row_cutoff = 10
