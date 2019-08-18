@@ -142,9 +142,9 @@ def get_mask(image):
     return mask, horizontal, vertical
 
 
-def add_border_padding(image, w=(2, 2, 2, 2)):
+def add_border_padding(image, w=(2, 2, 2, 2), color=(0, 0, 0)):
     x, y, _ = image.shape
     image = image[w[0]:x - w[1], w[2]:y - w[3]]
-    image = cv.copyMakeBorder(image, 2, 2, 2, 2, cv.BORDER_CONSTANT, value=(0, 0, 0))
+    image = cv.copyMakeBorder(image, 2, 2, 2, 2, cv.BORDER_CONSTANT, value=color)
     image = cv.copyMakeBorder(image, 8, 8, 8, 8, cv.BORDER_CONSTANT, value=(255, 255, 255))
     return image

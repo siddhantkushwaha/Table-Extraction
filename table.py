@@ -6,7 +6,7 @@ class Table:
 
         self.joints = None
 
-        self.row_cutoff = 10
+        self.row_cutoff = 4
 
     # Stores the coordinates of the table joints.
     # Assumes the n-dimensional array joints is sorted in ascending order.
