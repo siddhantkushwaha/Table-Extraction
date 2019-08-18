@@ -3,7 +3,7 @@ import cv2 as cv
 import numpy as np
 
 from table import Table
-from utils import get_mask, find_corners_from_contour, crop_and_warp, verify_table
+from utils import get_mask, find_corners_from_contour, crop_and_warp, verify_table, add_border_padding
 
 
 def extract(image):
@@ -23,6 +23,10 @@ def extract(image):
 
         corners = find_corners_from_contour(contour)
         table_image = crop_and_warp(image, corners)
+
+        # add outer borders artificially, some images may not have outer borders
+        # this will lead to outer columns being omitted
+        table_image = add_border_padding(table_image)
 
         # find table joints, intersections for the warped table
         _, h, v = get_mask(table_image)
@@ -70,6 +74,8 @@ def extract(image):
                                cell[0] * mult:(cell[0] + cell[2]) * mult]
 
                 out_tables[-1][-1].append({'row': r, 'column': c, 'cell': cell_cropped})
+
+                cv.imwrite(f'out/cell-{i}-{r}-{c}.jpg', cell_cropped)
 
     return out_tables
 

@@ -89,7 +89,7 @@ def crop_and_warp(img, crop_rect):
     b = distance_between(top_left, bottom_left)
     l = distance_between(bottom_left, bottom_right)
 
-    # Describe a square with side of the calculated length, this is the new perspective we want to warp to
+    # Describe a rect with side of the calculated length and breadth, this is the new perspective we want to warp to
     dst = np.array([[0, 0], [l - 1, 0], [l - 1, b - 1],
                     [0, b - 1]], dtype='float32')
 
@@ -140,3 +140,11 @@ def get_mask(image):
     mask = horizontal + vertical
 
     return mask, horizontal, vertical
+
+
+def add_border_padding(image, w=2):
+    x, y, _ = image.shape
+    image = image[w:x - w, w:y - w]
+    image = cv.copyMakeBorder(image, w, w, w, w, cv.BORDER_CONSTANT, value=(0, 0, 0))
+    image = cv.copyMakeBorder(image, 8, 8, 8, 8, cv.BORDER_CONSTANT, value=(255, 255, 255))
+    return image
