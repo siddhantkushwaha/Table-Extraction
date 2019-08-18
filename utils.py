@@ -100,7 +100,7 @@ def crop_and_warp(img, crop_rect):
     return cv.warpPerspective(img, m, (int(l), int(b)))
 
 
-def get_mask(image):
+def get_grid_mask(image):
     # convert to grayscale
     grayscale = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
 
@@ -142,9 +142,41 @@ def get_mask(image):
     return mask, horizontal, vertical
 
 
+# Add border to image after trimming, and add padding to it
 def add_border_padding(image, w=(2, 2, 2, 2), color=(0, 0, 0)):
     x, y, _ = image.shape
     image = image[w[0]:x - w[1], w[2]:y - w[3]]
     image = cv.copyMakeBorder(image, 2, 2, 2, 2, cv.BORDER_CONSTANT, value=color)
-    image = cv.copyMakeBorder(image, 1, 1, 1, 1, cv.BORDER_CONSTANT, value=(255, 255, 255))
+    image = cv.copyMakeBorder(image, 16, 16, 16, 16, cv.BORDER_CONSTANT, value=(255, 255, 255))
     return image
+
+
+# Given an image of intersection spots, pick one from each cluster
+def find_intersection_mean_cords(intersections):
+    cutoff = 5
+
+    points = []
+    _y = 0
+    for y, r in enumerate(intersections, 0):
+        for x, c in enumerate(r, 0):
+            intensity = intersections[y][x]
+            if intensity == 255:
+                p = (y, x)
+                if y - _y > cutoff:
+                    points.append([p])
+                else:
+                    points[-1].append(p)
+                _y = y
+
+    coords = []
+    for row in points:
+        new_row = []
+        old_row = sorted(row, key=lambda lam: lam[1])
+        _x = 0
+        for point in old_row:
+            if point[1] - _x > cutoff:
+                new_row.append(point)
+                _x = point[1]
+        coords.append(new_row)
+
+    return coords
