@@ -21,25 +21,25 @@ def ocr(cell):
 
 
 if __name__ == '__main__':
-    ext_img = Image.open('data/example.jpg')
+    ext_img = Image.open('data/example0.jpg')
     ext_img.save("out/target.jpg", "JPEG")
     target_img = cv.imread("out/target.jpg")
 
     tables = extract(target_img)
 
     table = tables[0]
-    for cell in table:
-        c = cell['cell']
-        e, te = ocr(c)
+    for i, row in enumerate(table, 0):
+        for j, cell in enumerate(row, 0):
+            e, te = ocr(cell)
 
-        fig = plt.figure()
+            fig = plt.figure()
 
-        ax1 = plt.subplot(1, 2, 1)
-        plt.imshow(c)
+            ax1 = plt.subplot(1, 2, 1)
+            plt.imshow(cell)
 
-        ax2 = plt.subplot(1, 2, 2)
-        ax2.set_title(te)
-        plt.imshow(e, cmap='gray')
+            ax2 = plt.subplot(1, 2, 2)
+            ax2.set_title(te)
+            plt.imshow(e, cmap='gray')
 
-        plt.savefig(f'out/{cell["row"]}-{cell["column"]}.jpg')
-        plt.close(fig)
+            plt.savefig(f'out/cell-{i}-{j}.jpg')
+            plt.close(fig)

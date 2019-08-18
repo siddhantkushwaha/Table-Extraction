@@ -6,7 +6,7 @@ from extract import extract
 from ocr import ocr
 
 if __name__ == '__main__':
-    ext_img = Image.open('data/example5.jpg')
+    ext_img = Image.open('data/example0.jpg')
     ext_img.save("out/target.jpg", "JPEG")
     target_img = cv.imread("out/target.jpg")
 
@@ -17,7 +17,7 @@ if __name__ == '__main__':
         for row in table:
             data.append([])
             for cell in row:
-                _, text = ocr(cell['cell'])
+                _, text = ocr(cell)
                 data[-1].append(text)
         df = pd.DataFrame(data)
         df.to_excel(f'out/table-{i}.xlsx', index=False)

@@ -5,6 +5,8 @@ from table import Table
 from utils import get_grid_mask, find_corners_from_contour, crop_and_warp, verify_table, add_border_padding, \
     find_intersection_mean_cords
 
+import quickfix
+
 
 def extract(image):
     mask, horizontal, vertical = get_grid_mask(image)
@@ -42,9 +44,12 @@ def extract(image):
         try:
             table_cells.append(table.get_cells())
         except Exception as e:
-            print(e)
-            for row in intersection_points:
-                print(row)
+            print('Cell extraction failed.. ', e)
+            try:
+                print('Trying quickfix..')
+                table_cells.append(quickfix.get_cells(table_image, intersection_points))
+            except Exception as e1:
+                print('Quickfix failed..', e1)
 
     return table_cells
 
