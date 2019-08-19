@@ -24,4 +24,4 @@ if __name__ == '__main__':
                                     data['top'] + data['height'])
             print(centroid)
 
-        # TODO insert words into right cells based on coordinates
+            # TODO insert words into right cells based on coordinates
