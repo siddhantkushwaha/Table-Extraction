@@ -33,5 +33,13 @@ def ocr(image):
 
 
 if __name__ == '__main__':
-    img = cv.imread('out/t1.jpg')
+    img = cv.imread('data/table0.jpg')
     ocr_data = ocr(img)
+
+    for i, data in ocr_data.iterrows():
+        cv.rectangle(img=img, pt1=(data['left'], data['top']),
+                     pt2=(data['left'] + data['width'], data['top'] + data['height']), color=(0, 255, 0), thickness=1)
+        cv.putText(img=img, text=data['text'], color=(0, 0, 255), org=(data['left'], data['top']),
+                   fontFace=cv.FONT_HERSHEY_PLAIN, fontScale=1)
+
+    cv.imwrite('out/ocr_results.jpg', img)

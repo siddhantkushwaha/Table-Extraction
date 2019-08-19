@@ -180,3 +180,8 @@ def find_intersection_mean_cords(intersections):
         coords.append(new_row)
 
     return coords
+
+
+# get centroid of a a rectangle
+def get_centroid(left, right, top, bottom):
+    return (left + right) / 2, (top + bottom) / 2
