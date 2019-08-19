@@ -51,4 +51,3 @@ if __name__ == '__main__':
     target_img = cv.imread("out/target.jpg")
 
     extracted_tables = extract(target_img)
-    # print(extracted_tables)

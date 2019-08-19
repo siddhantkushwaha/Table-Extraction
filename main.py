@@ -13,6 +13,15 @@ if __name__ == '__main__':
     tables = extract(target_img)
 
     for table in tables:
+
+        cells = table.get_cells()
         ocr_data = ocr(table.image)
+
+        for i, data in ocr_data.iterrows():
+            from utils import get_centroid
+
+            centroid = get_centroid(data['left'], data['left'] + data['width'], data['top'],
+                                    data['top'] + data['height'])
+            print(centroid)
 
         # TODO insert words into right cells based on coordinates

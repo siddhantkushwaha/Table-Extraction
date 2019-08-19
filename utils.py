@@ -161,7 +161,7 @@ def find_intersection_mean_cords(intersections):
         for x, c in enumerate(r, 0):
             intensity = intersections[y][x]
             if intensity == 255:
-                p = (y, x)
+                p = (x, y)
                 if y - _y > cutoff:
                     points.append([p])
                 else:
@@ -171,12 +171,12 @@ def find_intersection_mean_cords(intersections):
     coords = []
     for row in points:
         new_row = []
-        old_row = sorted(row, key=lambda lam: lam[1])
+        old_row = sorted(row)
         _x = 0
         for point in old_row:
-            if point[1] - _x > cutoff:
+            if point[0] - _x > cutoff:
                 new_row.append(point)
-                _x = point[1]
+                _x = point[0]
         coords.append(new_row)
 
     return coords
