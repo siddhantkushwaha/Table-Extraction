@@ -1,11 +1,16 @@
 import matplotlib.pyplot as plt
-import pytesseract as ts
 from PIL import Image
 import numpy as np
 import cv2 as cv
 
 from cell_denoise import enhance
 from extract import extract
+
+import pytesseract as ts
+
+
+def get_text(image):
+    return ts.image_to_string(image, config='--psm 10')
 
 
 def ocr(cell):
@@ -15,7 +20,7 @@ def ocr(cell):
 
     text = None
     if 2 < intensity < 253:
-        text = ts.image_to_string(enhanced, config='--psm 10')
+        text = get_text(enhanced)
 
     return enhanced, text
 

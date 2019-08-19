@@ -6,7 +6,7 @@ from extract import extract
 from ocr import ocr
 
 if __name__ == '__main__':
-    ext_img = Image.open('data/example0.jpg')
+    ext_img = Image.open('data/example2.jpg')
     ext_img.save("out/target.jpg", "JPEG")
     target_img = cv.imread("out/target.jpg")
 
