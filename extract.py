@@ -5,8 +5,6 @@ from table import Table
 from utils import get_grid_mask, find_corners_from_contour, crop_and_warp, verify_table, add_border_padding, \
     find_intersection_mean_cords
 
-import quickfix
-
 
 def extract(image):
     mask, horizontal, vertical = get_grid_mask(image)
@@ -15,7 +13,7 @@ def extract(image):
     # Find intersections between the lines to determine if the intersections are table joints.
     intersections = cv.bitwise_and(horizontal, vertical)
 
-    table_cells = []
+    tables = []
     for table_number, contour in enumerate(contours):
 
         # verify that Region of Interest (ROI) is a table
@@ -40,18 +38,11 @@ def extract(image):
             continue
 
         table = Table(table_image, intersection_points)
+        cells = table.get_cells()
+        if cells is not None:
+            tables.append(table)
 
-        try:
-            table_cells.append(table.get_cells())
-        except Exception as e:
-            print('Cell extraction failed.. ', e)
-            try:
-                print('Trying quickfix..')
-                table_cells.append(quickfix.get_cells(table_image, intersection_points))
-            except Exception as e1:
-                print('Quickfix failed..', e1)
-
-    return table_cells
+    return tables
 
 
 if __name__ == '__main__':

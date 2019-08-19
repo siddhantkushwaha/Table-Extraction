@@ -12,12 +12,7 @@ if __name__ == '__main__':
 
     tables = extract(target_img)
 
-    for i, table in enumerate(tables, 1):
-        data = []
-        for row in table:
-            data.append([])
-            for cell in row:
-                _, text = ocr(cell)
-                data[-1].append(text)
-        df = pd.DataFrame(data)
-        df.to_excel(f'out/table-{i}.xlsx', index=False)
+    for table in tables:
+        ocr_data = ocr(table.image)
+
+        # TODO insert words into right cells based on coordinates
