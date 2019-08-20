@@ -1,4 +1,3 @@
-from PIL import Image
 import cv2 as cv
 
 from table import Table
@@ -45,8 +44,5 @@ def extract(image):
 
 
 if __name__ == '__main__':
-    ext_img = Image.open('data/example1.jpg')
-    ext_img.save("out/target.jpg", "JPEG")
-    target_img = cv.imread("out/target.jpg")
-
-    extracted_tables = extract(target_img)
+    img = cv.imread('data/example1.jpg')
+    tables = extract(img)

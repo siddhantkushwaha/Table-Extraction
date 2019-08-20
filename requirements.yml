@@ -6,8 +6,10 @@ dependencies:
   - blas=1.0=mkl
   - ca-certificates=2019.5.15=1
   - certifi=2019.6.16=py37_1
+  - et_xmlfile=1.0.1=py37_0
   - intel-openmp=2019.4=233
   - isort=4.3.21=py37_0
+  - jdcal=1.4.1=py_0
   - lazy-object-proxy=1.4.1=py37h1de35cc_0
   - libcxx=4.0.1=hcfea43d_1
   - libcxxabi=4.0.1=hcfea43d_1
@@ -22,6 +24,7 @@ dependencies:
   - ncurses=6.1=h0a44026_1
   - numpy=1.16.4=py37hacdab7b_0
   - numpy-base=1.16.4=py37h6575580_0
+  - openpyxl=2.6.2=py_0
   - openssl=1.1.1c=h1de35cc_1
   - pandas=0.25.0=py37h0a44026_0
   - pip=19.1.1=py37_0
