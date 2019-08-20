@@ -38,9 +38,8 @@ def extract(image):
             continue
 
         table = Table(table_image, intersection_points)
-        cells = table.get_cells()
-        if cells is not None:
-            tables.append(table)
+        table.build()
+        tables.append(table)
 
     return tables
 
