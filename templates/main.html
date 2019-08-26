@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+<head>
+    <title>TableX</title>
+</head>
+<body>
+<form method=post enctype=multipart/form-data>
+    <input type=file name=file>
+    <input type=submit value=Upload>
+</form>
+
+<ul>
+    {% for table in tables %}
+    <li><a href="{{table}}">Click Here.</a></li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>
+
