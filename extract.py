@@ -27,6 +27,8 @@ def extract(image):
         # this will lead to outer columns being omitted
         table_image = add_border_padding(table_image, w=(2, 2, 2, 4), color=(100, 100, 100))
 
+        cv.imwrite('out/final_image.jpg', table_image)
+
         # find table joints, intersections for the warped table
         m, h, v = get_grid_mask(table_image)
         table_intersections = cv.bitwise_and(h, v)
