@@ -11,11 +11,10 @@ def main(image):
         yield df
 
 
-def run(path='data/example1.jpg'):
-    image = cv.imread(path)
-    yield from main(image)
-
-
 if __name__ == '__main__':
-    for t in run():
-        print(t)
+    path = 'data/example1.jpg'
+    image = cv.imread(path)
+
+    tables = extract(image)
+    for table in tables:
+        print(table)

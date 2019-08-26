@@ -1,15 +1,21 @@
-import os
 from flask import Flask, request, redirect, render_template
 from markupsafe import Markup
-from werkzeug.utils import secure_filename
 
-from main import run
+import numpy as np
+import cv2 as cv
+from main import main
 
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 app = Flask(__name__, static_url_path='/static', template_folder='templates')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+
+def bytes_to_image(bytes):
+    np_arr = np.frombuffer(bytes, np.uint8)
+    arr = cv.imdecode(np_arr, cv.IMREAD_COLOR)
+    return arr
 
 
 def allowed_file(filename):
@@ -28,15 +34,11 @@ def upload_file():
             return redirect(request.url)
 
         if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-
-            file.save(path)
+            image = bytes_to_image(file.read())
 
             tables = {}
-            for i, table in enumerate(run(path), 0):
+            for i, table in enumerate(main(image), 0):
                 tables[i] = Markup(table.to_html(index=False))
-                print(tables[i])
 
             return render_template('main.html', tables=tables)
 
