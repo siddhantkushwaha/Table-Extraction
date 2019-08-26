@@ -9,11 +9,13 @@
     <input type=submit value=Upload>
 </form>
 
-<ul>
-    {% for table in tables %}
-    <li><a href="{{table}}">Click Here.</a></li>
-    {% endfor %}
-</ul>
+{% if tables %}
+{% for key, value in tables.items() %}
+<div class="table-container">
+    {{value}}
+</div>
+{% endfor %}
+{% endif %}
 
 </body>
 </html>

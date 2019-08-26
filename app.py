@@ -1,5 +1,6 @@
 import os
 from flask import Flask, request, redirect, render_template
+from markupsafe import Markup
 from werkzeug.utils import secure_filename
 
 from main import run
@@ -32,11 +33,12 @@ def upload_file():
 
             file.save(path)
 
-            tables = []
+            tables = {}
             for i, table in enumerate(run(path), 0):
-                result_path = f'static/table-{i}.csv'
-                table.to_csv(result_path, index=False)
-                tables.append(result_path)
+                # result_path = f'static/table-{i}.csv'
+                # table.to_csv(result_path, index=False)
+                tables[i] = Markup(table.to_html(index=False))
+                print(tables[i])
 
             return render_template('main.html', tables=tables)
 
