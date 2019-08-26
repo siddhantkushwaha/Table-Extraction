@@ -8,9 +8,14 @@ def main(image):
     tables = extract(image)
     for table in tables:
         df = pd.DataFrame(table.data)
-        print(df)
+        yield df
+
+
+def run(path='data/example1.jpg'):
+    image = cv.imread(path)
+    yield from main(image)
 
 
 if __name__ == '__main__':
-    image = cv.imread("data/example1.jpg")
-    main(image)
+    for t in run():
+        print(t)
