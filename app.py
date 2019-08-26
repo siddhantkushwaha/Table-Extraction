@@ -35,8 +35,6 @@ def upload_file():
 
             tables = {}
             for i, table in enumerate(run(path), 0):
-                # result_path = f'static/table-{i}.csv'
-                # table.to_csv(result_path, index=False)
                 tables[i] = Markup(table.to_html(index=False))
                 print(tables[i])
 
